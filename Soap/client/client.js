@@ -4,7 +4,7 @@ const soap = require('soap');
 // Define a URL do WSDL para o serviço SOAP
 const wsdlUrl = 'http://127.0.0.1:8000/?wsdl';
 
-// Função para obter informações de um time de futebol a partir do ID
+// Função para obter informações de uma competição a partir da sigla
 function getCompInfo(comp_id) {
   // Cria um cliente SOAP com base na URL do WSDL
   soap.createClient(wsdlUrl, function(err, client) {

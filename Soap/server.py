@@ -18,7 +18,7 @@ class FootballComp(ServiceBase):
         # Define o cabeçalho da solicitação com a chave de API
         headers = {"X-Auth-Token": api_key}
 
-        # Faz uma requisição HTTP GET à API de Futebol para obter os dados do time
+        # Faz uma requisição HTTP GET à API de Futebol para obter os dados de uma competição especifica
         response = requests.get(f"{base_url}/{comp_id}", headers=headers)
 
         # Verifica se a solicitação foi bem-sucedida (código de status 200)
@@ -26,8 +26,6 @@ class FootballComp(ServiceBase):
             # Converte o JSON da resposta para um dicionário Python
             comp_data = response.json()
 
-            # Extrai o tipo de competição
-            comp_type = comp_data.get("type", "")
             # Extrai qual rodada 
             comp_matchday = comp_data.get("currentSeason", {}).get("currentMatchday", "")
             # Extrai quando começou a temporada
@@ -38,14 +36,14 @@ class FootballComp(ServiceBase):
             comp_winner = comp_data.get("currentSeason", {}).get("winner", "")
 
             # Cria uma string de resultado com as informações da competição
-            result = f"Tipo de liga: {comp_type}, Rodada: {comp_matchday}, Quando começou: {comp_start},  Quando termina: {comp_finish}, Vencendor: {comp_winner}"
+            result = f" Rodada: {comp_matchday}, Quando começou: {comp_start},  Quando termina: {comp_finish}, Vencendor: {comp_winner}"
         else:
             result = f"Failed to retrieve team information. Status code: {response.status_code}"
 
         return result
 
 
-# Cria uma instância da aplicação SOAP e registra o serviço 'FootballTeam' nela
+# Cria uma instância da aplicação SOAP e registra o serviço 'FootballComp' nela
 soap_app = Application([FootballComp],
                        tns="soap.server",
                        in_protocol=Soap11(validator='lxml'),
