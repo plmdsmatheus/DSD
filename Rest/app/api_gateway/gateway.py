@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 import requests
 
 app = Flask(__name__)
@@ -30,6 +30,10 @@ def get_messages():
     response = requests.get('http://localhost:8000/api/messages')
     return jsonify(response.json())
     
+@app.route('/api/social/docs', methods=['GET'])
+def redirect_to_docs():
+    # Redireciona para a rota de documentação da API FastAPI
+    return redirect('http://localhost:8000/docs')
 
 if __name__ == '__main__':
     # Inicia o servidor da API Gateway na porta 5000
