@@ -3,6 +3,7 @@ from fastapi.routing import APIRouter
 from fastapi.responses import JSONResponse, HTMLResponse
 from starlette.responses import RedirectResponse
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.openapi.utils import get_openapi
 import httpx
 
 app = FastAPI()
@@ -35,7 +36,8 @@ async def sorte_docs():
     swagger_ui_html = get_swagger_ui_html(openapi_url="http://localhost:8002/docs", title="API Sorte")
 
     # Retorna o HTML com a nova URL do OpenAPI
-    return HTMLResponse(content=swagger_ui_html)
+    return HTMLResponse(content=swagger_ui_html.body)
+
 
 # Social ----------------
 async def fetch_users():

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Página</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h1>Bem-vindo à Minha Página</h1>
+
+    <!-- Botão para receber conselho aleatório -->
+    <button type="button" class="btn btn-primary mt-3" id="btnConselho">Receber Conselho Aleatório</button>
+
+    <!-- Botão para chamar API da rede social -->
+    <button type="button" class="btn btn-success mt-3" id="btnEntrarRedeSocial">Entrar na Rede Social</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    document.getElementById('btnConselho').addEventListener('click', function () {
+      // Substitua SUA_API_CONSELHO_URL pelo URL real da sua API de conselhos
+      var apiEndpoint = 'SUA_API_CONSELHO_URL';
+
+      // Fazendo uma requisição AJAX para a API de conselhos
+      $.ajax({
+        url: apiEndpoint,
+        method: 'GET',
+        success: function (data) {
+          // Manipule os dados da resposta da API conforme necessário
+          exibirConselho(data.conselho);
+        },
+        error: function (error) {
+          alert('Erro ao acessar a API de Conselhos.');
+        }
+      });
+    });
+
+    document.getElementById('btnEntrarRedeSocial').addEventListener('click', function () {
+      // Substitua SUA_API_GATEWAY_URL e /endpoint-da-rede-social pelo URL e endpoint reais da sua API
+      var apiEndpoint = 'https://bug-free-broccoli-p6xx46x7jgrc6v7j-8001.app.github.dev/api/social';
+
+      // Fazendo uma requisição AJAX para a API Gateway
+      $.ajax({
+        url: apiEndpoint,
+        method: 'GET',
+        success: function (data) {
+          // Manipule os dados da resposta da API conforme necessário
+          alert('Redirecionando para a Rede Social: ' + data.url);
+          // Se quiser redirecionar para a rede social, use window.location.href = data.url;
+        },
+        error: function (error) {
+          alert('Erro ao acessar a API da Rede Social.');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
