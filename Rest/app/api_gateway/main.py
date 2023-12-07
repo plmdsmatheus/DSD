@@ -1,13 +1,43 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.routing import APIRouter
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
+from starlette.responses import RedirectResponse
+from fastapi.openapi.docs import get_swagger_ui_html
 import httpx
 
 app = FastAPI()
 
 # Roteador para a API Social
 social_api_router = APIRouter()
+# Roteador para a API Sorte
+sorte_api_router = APIRouter()
 
+async def fetch_advice():
+    async with httpx.AsyncClient() as client:
+        response = await client.get('http://localhost:8002/conselho')
+        return response.json()
+
+@sorte_api_router.get("/conselho", response_class=JSONResponse)
+async def get_advice():
+    try:
+        advice = await fetch_advice()
+        return advice
+    except httpx.HTTPError as e:
+        raise HTTPException(status_code=e.response.status_code, detail="Erro ao receber o conselho")
+
+# Inclui o roteador da API Sorte no aplicativo principal
+app.include_router(sorte_api_router, prefix="/api/sorte")
+
+# Redireciona a documentação para a nova rota
+@app.get("/api/sorte/docs", response_class=HTMLResponse)
+async def sorte_docs():
+    # Obtém o HTML da documentação gerada automaticamente
+    swagger_ui_html = get_swagger_ui_html(openapi_url="http://localhost:8002/docs", title="API Sorte")
+
+    # Retorna o HTML com a nova URL do OpenAPI
+    return HTMLResponse(content=swagger_ui_html)
+
+# Social ----------------
 async def fetch_users():
     async with httpx.AsyncClient() as client:
         response = await client.get('http://localhost:8000/api/users')
@@ -70,11 +100,14 @@ async def get_messages():
 app.include_router(social_api_router, prefix="/api/social")
 
 # Rota de redirecionamento para a documentação da API FastAPI
-@app.get("/api/social/docs", response_class=JSONResponse)
+@app.get("/api/social/docs", response_class=HTMLResponse)
 async def redirect_to_docs():
+    # URL da documentação da API FastAPI
+    fastapi_docs_url = 'https://bug-free-broccoli-p6xx46x7jgrc6v7j-8000.app.github.dev/docs'
+
     # Redireciona para a rota de documentação da API FastAPI
-    return {"message": "Redirecting to FastAPI docs"}
+    return RedirectResponse(url=fastapi_docs_url, status_code=303)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=5000)
+    uvicorn.run(app, host="localhost", port=8001)
