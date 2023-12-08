@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minha Página</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 
@@ -18,14 +19,14 @@
     <button type="button" class="btn btn-success mt-3" id="btnEntrarRedeSocial">Entrar na Rede Social</button>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
     document.getElementById('btnConselho').addEventListener('click', function () {
-      // Substitua SUA_API_CONSELHO_URL pelo URL real da sua API de conselhos
-      var apiEndpoint = 'SUA_API_CONSELHO_URL';
+      //URL real da sua API de conselhos
+      var apiEndpoint = 'https://bug-free-broccoli-p6xx46x7jgrc6v7j-8001.app.github.dev/api/sorte/conselho';
 
       // Fazendo uma requisição AJAX para a API de conselhos
       $.ajax({
@@ -33,7 +34,7 @@
         method: 'GET',
         success: function (data) {
           // Manipule os dados da resposta da API conforme necessário
-          exibirConselho(data.conselho);
+          alert("Conselho: " + data.conselho);
         },
         error: function (error) {
           alert('Erro ao acessar a API de Conselhos.');

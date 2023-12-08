@@ -1,17 +1,23 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException
 from fastapi.routing import APIRouter
 from fastapi.responses import JSONResponse, HTMLResponse
 from starlette.responses import RedirectResponse
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
+from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
 app = FastAPI()
 
-# Roteador para a API Social
-social_api_router = APIRouter()
 # Roteador para a API Sorte
 sorte_api_router = APIRouter()
+sorte_api_router.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 async def fetch_advice():
     async with httpx.AsyncClient() as client:
@@ -38,6 +44,16 @@ async def sorte_docs():
     # Retorna o HTML com a nova URL do OpenAPI
     return HTMLResponse(content=swagger_ui_html.body)
 
+
+# Roteador para a API Social
+social_api_router = APIRouter()
+social_api_router.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Social ----------------
 async def fetch_users():
