@@ -9,15 +9,17 @@ import httpx
 
 app = FastAPI()
 
-# Roteador para a API Sorte
-sorte_api_router = APIRouter()
-sorte_api_router.add_middleware(
+# Configurar o middleware CORS para o aplicativo
+app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Roteador para a API Sorte
+sorte_api_router = APIRouter()
 
 async def fetch_advice():
     async with httpx.AsyncClient() as client:
@@ -47,13 +49,6 @@ async def sorte_docs():
 
 # Roteador para a API Social
 social_api_router = APIRouter()
-social_api_router.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Social ----------------
 async def fetch_users():
@@ -121,7 +116,7 @@ app.include_router(social_api_router, prefix="/api/social")
 @app.get("/api/social/docs", response_class=HTMLResponse)
 async def redirect_to_docs():
     # URL da documentação da API FastAPI
-    fastapi_docs_url = 'https://bug-free-broccoli-p6xx46x7jgrc6v7j-8000.app.github.dev/docs'
+    fastapi_docs_url = 'http://localhost:8000/docs'
 
     # Redireciona para a rota de documentação da API FastAPI
     return RedirectResponse(url=fastapi_docs_url, status_code=303)

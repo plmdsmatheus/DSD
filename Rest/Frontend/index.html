@@ -26,7 +26,7 @@
   <script>
     document.getElementById('btnConselho').addEventListener('click', function () {
       //URL real da sua API de conselhos
-      var apiEndpoint = 'https://bug-free-broccoli-p6xx46x7jgrc6v7j-8001.app.github.dev/api/sorte/conselho';
+      var apiEndpoint = 'http://localhost:8001/api/sorte/conselho';
 
       // Fazendo uma requisição AJAX para a API de conselhos
       $.ajax({
@@ -34,17 +34,21 @@
         method: 'GET',
         success: function (data) {
           // Manipule os dados da resposta da API conforme necessário
-          alert("Conselho: " + data.conselho);
+          exibirConselho(data.advice);
         },
         error: function (error) {
           alert('Erro ao acessar a API de Conselhos.');
         }
       });
+      function exibirConselho(conselho){
+        alert("Conselho: " + conselho)
+      }
+
     });
 
     document.getElementById('btnEntrarRedeSocial').addEventListener('click', function () {
       // Substitua SUA_API_GATEWAY_URL e /endpoint-da-rede-social pelo URL e endpoint reais da sua API
-      var apiEndpoint = 'https://bug-free-broccoli-p6xx46x7jgrc6v7j-8001.app.github.dev/api/social';
+      var apiEndpoint = 'http://localhost:8001/docs';
 
       // Fazendo uma requisição AJAX para a API Gateway
       $.ajax({
