@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarefa 05 - Rest</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h1>Tarefa 05 - Rest </h1>
+
+    <!-- Botão para receber conselho aleatório -->
+    <button type="button" class="btn btn-primary mt-3" id="btnConselho">Receber Conselho Aleatório</button>
+
+    <!-- Botão para chamar API da rede social -->
+    <button type="button" class="btn btn-success mt-3" id="btnEntrarRedeSocial">Entrar na Rede Social</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+
+      function exibirConselho(conselho){
+          return alert(conselho)
+      }
+
+    document.getElementById('btnConselho').addEventListener('click', function () {
+      //URL real da sua API de conselhos
+      var apiEndpoint = 'http://localhost:8001/api/sorte/conselho';
+
+      // Fazendo uma requisição AJAX para a API de conselhos
+      $.ajax({
+        url: apiEndpoint,
+        method: 'GET',
+        success: function (data) {
+          // Manipule os dados da resposta da API conforme necessário
+          exibirConselho(data.advice);
+        },
+        error: function (error) {
+          alert('Erro ao acessar a API de Conselhos.');
+        }
+      });
+    });
+
+    document.getElementById('btnEntrarRedeSocial').addEventListener('click', function () {
+      // Substitua SUA_API_GATEWAY_URL e /endpoint-da-rede-social pelo URL e endpoint reais da sua API
+      var apiEndpoint = 'http://localhost:8001/api/social/likes';
+
+      // Fazendo uma requisição AJAX para a API Gateway
+      $.ajax({
+        url: apiEndpoint,
+        method: 'GET',
+        success: function (data) {
+          // Manipule os dados da resposta da API conforme necessário
+          alert('Redirecionando para a Rede Social: ' + data.url);
+          alert('Não foi encontrado nada nesse link, redirecionando para a documentação da rede social.')
+          window.location.href = 'http://localhost:8000/docs';
+        },
+        error: function (error) {
+          alert('Erro ao acessar a API da Rede Social.');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
