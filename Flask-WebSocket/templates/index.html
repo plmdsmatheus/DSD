@@ -8,10 +8,10 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-    <canvas id="whiteboard" width="800" height="600" style="border:1px solid #000;"></canvas>
+    <canvas id="whiteboard" width="1600" height="1200" style="border:1px solid #000;"></canvas>
 
     <script>
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var socket = io.connect('http://062a-20-242-21-143.ngrok-free.app');
 
         var canvas = document.getElementById('whiteboard');
         var context = canvas.getContext('2d');
